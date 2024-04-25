@@ -5,7 +5,7 @@
 
     public class UniversityRepository
     {
-        private SqlConnection conn;
+        //private SqlConnection conn;
 
         private string getConnectionString()
         {
@@ -15,13 +15,14 @@
 
         public UniversityRepository()
         {
-            conn = new SqlConnection(getConnectionString());
+            //conn = new SqlConnection(getConnectionString());
         }
 
         public int AddUniversity(University uni)
         {
+            using SqlConnection conn = new SqlConnection(getConnectionString());
             const string query = "INSERT INTO Universities(uni_name, uni_location, uni_score, uni_descr) " +
-                                 "VALUES(@name, @location, @score, @descr);" + 
+                                 "VALUES(@name, @location, @score, @descr);" +
                                  "SELECT SCOPE_IDENTITY()";
             SqlCommand cmd = new SqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@name", uni.Name);
@@ -40,10 +41,6 @@
                 Console.WriteLine(ex.Message);
                 index = -2;
             }
-            finally
-            {
-                conn.Close();
-            }
 
             return index;
         }
@@ -51,32 +48,31 @@
         public University? SearchUniversity(int id)
         {
             List<University?> ret = [];
-            const string query = "SELECT * FROM Universities WHERE uni_id=@id";
-            SqlCommand cmd = new SqlCommand(query, conn);
-            cmd.Parameters.AddWithValue("@id", id);
+            using (SqlConnection conn = new SqlConnection(getConnectionString()))
+            {
+                const string query = "SELECT * FROM Universities WHERE uni_id=@id";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@id", id);
 
-            try
-            {
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                try
                 {
-                    ret.Add(new University((int)reader[0],
-                                           (string)reader[1],
-                                           (string)reader[2],
-                                           (double)reader[3],
-                                           (string)reader[4]));
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        ret.Add(new University((int)reader[0],
+                                               (string)reader[1],
+                                               (string)reader[2],
+                                               (double)reader[3],
+                                               (string)reader[4]));
+                    }
+                    reader.Close();
                 }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                ret.Add(null);
-            }
-            finally
-            {
-                conn.Close();
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    ret.Add(null);
+                }
             }
 
             if (ret.Count > 0)
@@ -86,6 +82,7 @@
 
         public int UpdateUniversity(University university)
         {
+            using SqlConnection conn = new SqlConnection(getConnectionString());
             const string query = "UPDATE Universities SET " + 
                                  "uni_name=@name, uni_location=@location, uni_score=@score, uni_descr=@descr " +
                                  "WHERE uni_id=@id";
@@ -107,16 +104,13 @@
                 Console.WriteLine(ex.Message);
                 rows = -2;
             }
-            finally
-            {
-                conn.Close();
-            }
 
             return rows;
         }
 
         public int DeleteUniversity(int id)
         {
+            using SqlConnection conn = new SqlConnection(getConnectionString());
             const string query = "DELETE FROM Universities WHERE uni_id=@id";
             SqlCommand cmd = new SqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@id", id);
@@ -132,16 +126,13 @@
                 Console.WriteLine(ex.Message);
                 rows = -2;
             }
-            finally
-            {
-                conn.Close();
-            }
 
             return rows;
         }
 
         public int GetSizeOfRepo()
         {
+            using SqlConnection conn = new SqlConnection(getConnectionString());
             const string query = "SELECT COUNT(*) FROM Universities";
             SqlCommand cmd = new SqlCommand(query, conn);
             int count;
@@ -155,10 +146,6 @@
             {
                 Console.WriteLine(ex.Message);
                 count = -2;
-            }
-            finally
-            {
-                conn.Close();
             }
 
             return count;
@@ -206,34 +193,33 @@
         public List<object> GroupByUniId()
         {
             List<object> ret = new List<object>();
-            const string query = "SELECT U.uni_name AS uni_name, U.uni_location AS uni_location, t.faculties " +
-                                 "FROM Universities U LEFT JOIN (SELECT uni_id, COUNT(*) AS faculties " +
-                                                                "FROM Faculties " +
-                                                                "GROUP BY uni_id) t ON t.uni_id = U.uni_id";
-            SqlCommand cmd = new SqlCommand(query, conn);
+            using (SqlConnection conn = new SqlConnection(getConnectionString()))
+            {
+                const string query = "SELECT U.uni_name AS uni_name, U.uni_location AS uni_location, t.faculties " +
+                                     "FROM Universities U LEFT JOIN (SELECT uni_id, COUNT(*) AS faculties " +
+                                                                    "FROM Faculties " +
+                                                                    "GROUP BY uni_id) t ON t.uni_id = U.uni_id";
+                SqlCommand cmd = new SqlCommand(query, conn);
 
-            try
-            {
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                try
                 {
-                    ret.Add(new
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
                     {
-                        uni_name = (string)reader[0],
-                        uni_location = (string)reader[1],
-                        faculties = (int)reader[2]
-                    });
+                        ret.Add(new
+                        {
+                            uni_name = (string)reader[0],
+                            uni_location = (string)reader[1],
+                            faculties = (int)reader[2]
+                        });
+                    }
+                    reader.Close();
                 }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                conn.Close();
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
 
             return ret;
