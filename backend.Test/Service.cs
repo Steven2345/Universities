@@ -1,0 +1,169 @@
+﻿using backend.Domain;
+using backend.Service;
+
+namespace backend.Test
+{
+    public class TestUniversityService
+    {
+        private UniversityService serv;
+        private int firstID, lastID;
+
+        [SetUp]
+        public void Setup()
+        {
+            serv = new UniversityService();
+        }
+
+        [Test]
+        public void AddToService_SuccessiveAdds_ReturnSuccessiveIDs()
+        {
+            University u1 = new University(1, "asdf", "asdf", 34, "asdf");
+            University u2 = new University(1, "qwer", "asdf", 34, "asdf");
+            University u3 = new University(1, "zxcv", "asdf", 34, "asdf");
+
+            int id1 = firstID = serv.AddUniversity(u1);
+            int id2 = serv.AddUniversity(u2);
+            int id3 = serv.AddUniversity(u3);
+
+            Assert.IsTrue(id1 == id2 - 1);
+            Assert.IsTrue(id2 == id3 - 1);
+        }
+
+        [Test]
+        public void SearchInService()
+        {
+            University u1 = new University(1, "asdf", "asdf", 34, "asdf");
+            int id = serv.AddUniversity(u1);
+
+            University u = serv.getById(id);
+
+            Assert.That(u.Name, Is.Not.EqualTo(""));
+            Assert.That(u.Name == "asdf", Is.True);
+        }
+
+        [Test]
+        public void UpdateService()
+        {
+            University uu = new University(1, "qwer", "asdf", 34, "asdf");
+            int id2 = lastID = serv.AddUniversity(uu);
+            University u1 = serv.getById(id2);
+
+            Assert.That(u1.Name, Is.Not.EqualTo(""));
+            University u2 = new University(u1.Id, "ASDF", u1.Location, u1.Score, u1.Description);
+            serv.UpdateUniversity(u2);
+            Assert.That(u1.Name == "qwer");
+
+            University u11 = serv.getById(id2);
+            Assert.That(u11.Name, Is.Not.EqualTo(""));
+            Assert.That(u11.Name == "ASDF", Is.True);
+        }
+
+        [Test]
+        public void DeleteFromService()
+        {
+            University u1 = new University(1, "asdf", "asdf", 34, "asdf");
+            University u2 = new University(1, "qwer", "asdf", 34, "asdf");
+            University u3 = new University(1, "zxcv", "asdf", 34, "asdf");
+
+            int id1 = serv.AddUniversity(u1);
+            int id2 = serv.AddUniversity(u2);
+            int id3 = serv.AddUniversity(u3);
+
+            Assert.That(serv.DeleteUniversity(id1), Is.EqualTo(1));
+            Assert.That(serv.DeleteUniversity(id2), Is.EqualTo(1));
+            Assert.That(serv.DeleteUniversity(id3), Is.EqualTo(1));
+            Assert.That(serv.DeleteUniversity(id1), Is.EqualTo(0));
+            Assert.That(serv.DeleteUniversity(id2), Is.EqualTo(0));
+            Assert.That(serv.DeleteUniversity(id3), Is.EqualTo(0));
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            for (int id = firstID; id <= lastID; id++)
+                serv.DeleteUniversity(id);
+        }
+    }
+
+    public class TestFacultyService
+    {
+        private FacultyService serv;
+        private int firstID, lastID;
+
+        [SetUp]
+        public void Setup()
+        {
+            serv = new FacultyService();
+        }
+
+        [Test]
+        public void AddToService_SuccessiveAdds_ReturnSuccessiveIDs()
+        {
+            Faculty u1 = new Faculty(1, "asdf", 500, 1);
+            Faculty u2 = new Faculty(1, "qwer", 600, 2);
+            Faculty u3 = new Faculty(1, "zxcv", 900, 3);
+
+            int id1 = firstID = serv.AddFaculty(u1);
+            int id2 = serv.AddFaculty(u2);
+            int id3 = serv.AddFaculty(u3);
+
+            Assert.That(id2 - id1, Is.EqualTo(1));
+            Assert.IsTrue(id2 == id3 - 1);
+        }
+
+        [Test]
+        public void SearchInService()
+        {
+            Faculty u1 = new Faculty(1, "asdf", 500, 1);
+            int id = serv.AddFaculty(u1);
+
+            Faculty u = serv.getById(id);
+
+            Assert.That(u.Name, Is.Not.EqualTo(""));
+            Assert.That(u.Name == "asdf", Is.True);
+        }
+
+        [Test]
+        public void UpdateService()
+        {
+            Faculty uu = new Faculty(1, "qwer", 600, 2);
+            int id2 = lastID = serv.AddFaculty(uu);
+            Faculty u1 = serv.getById(id2);
+
+            Assert.That(u1.Name, Is.Not.EqualTo(""));
+            Faculty u2 = new Faculty(u1.Id, "ASDF", u1.NoOfStudents, u1.University);
+            serv.UpdateFaculty(u2);
+            Assert.That(u1.Name == "qwer");
+
+            Faculty u11 = serv.getById(id2);
+            Assert.That(u11.Name, Is.Not.EqualTo(""));
+            Assert.That(u11.Name == "ASDF", Is.True);
+        }
+
+        [Test]
+        public void DeleteFromRepo()
+        {
+            Faculty u1 = new Faculty(1, "asdf", 500, 1);
+            Faculty u2 = new Faculty(1, "qwer", 600, 2);
+            Faculty u3 = new Faculty(1, "zxcv", 900, 3);
+
+            int id1 = serv.AddFaculty(u1);
+            int id2 = serv.AddFaculty(u2);
+            int id3 = serv.AddFaculty(u3);
+
+            Assert.That(serv.DeleteFaculty(id1), Is.EqualTo(1));
+            Assert.That(serv.DeleteFaculty(id2), Is.EqualTo(1));
+            Assert.That(serv.DeleteFaculty(id3), Is.EqualTo(1));
+            Assert.That(serv.DeleteFaculty(id1), Is.EqualTo(0));
+            Assert.That(serv.DeleteFaculty(id2), Is.EqualTo(0));
+            Assert.That(serv.DeleteFaculty(id3), Is.EqualTo(0));
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            for (int id = firstID; id <= lastID; id++)
+                serv.DeleteFaculty(id);
+        }
+    }
+}
