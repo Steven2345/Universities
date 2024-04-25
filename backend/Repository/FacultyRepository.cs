@@ -5,7 +5,7 @@
 
     public class FacultyRepository
     {
-        private SqlConnection conn;
+        //private SqlConnection conn;
 
         private string getConnectionString()
         {
@@ -15,11 +15,12 @@
 
         public FacultyRepository()
         {
-            conn = new SqlConnection(getConnectionString());
+            //conn = new SqlConnection(getConnectionString());
         }
 
         public int AddFaculty(Faculty faculty)
         {
+            using SqlConnection conn = new SqlConnection(getConnectionString());
             const string query = "INSERT INTO Faculties(facult_name, facult_nostud, uni_id) " +
                                  "VALUES(@name, @nostud, @uniid);" +
                                  "SELECT SCOPE_IDENTITY()";
@@ -39,10 +40,6 @@
                 Console.WriteLine(ex.Message);
                 index = -2;
             }
-            finally
-            {
-                conn.Close();
-            }
 
             return index;
         }
@@ -50,31 +47,30 @@
         public Faculty? SearchFaculty(int id)
         {
             List<Faculty?> ret = [];
-            const string query = "SELECT * FROM Faculties WHERE facult_id=@id";
-            SqlCommand cmd = new SqlCommand(query, conn);
-            cmd.Parameters.AddWithValue("@id", id);
+            using (SqlConnection conn = new SqlConnection(getConnectionString()))
+            {
+                const string query = "SELECT * FROM Faculties WHERE facult_id=@id";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@id", id);
 
-            try
-            {
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                try
                 {
-                    ret.Add(new Faculty((int)reader[0],
-                                        (string)reader[1],
-                                        (int)reader[2],
-                                        (int)reader[3]));
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        ret.Add(new Faculty((int)reader[0],
+                                            (string)reader[1],
+                                            (int)reader[2],
+                                            (int)reader[3]));
+                    }
+                    reader.Close();
                 }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                ret.Add(null);
-            }
-            finally
-            {
-                conn.Close();
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    ret.Add(null);
+                }
             }
 
             return ret[0];
@@ -82,6 +78,7 @@
 
         public int UpdateFaculty(Faculty faculty)
         {
+            using SqlConnection conn = new SqlConnection(getConnectionString());
             const string query = "UPDATE Faculties SET " +
                                  "facult_name=@name, facult_nostud=@nostud, uni_id=@uniid " +
                                  "WHERE facult_id=@id";
@@ -102,16 +99,13 @@
                 Console.WriteLine(ex.Message);
                 rows = -2;
             }
-            finally
-            {
-                conn.Close();
-            }
 
             return rows;
         }
 
         public int DeleteFaculty(int id)
         {
+            using SqlConnection conn = new SqlConnection(getConnectionString());
             const string query = "DELETE FROM Faculties WHERE facult_id=@id";
             SqlCommand cmd = new SqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@id", id);
@@ -127,16 +121,13 @@
                 Console.WriteLine(ex.Message);
                 rows = -2;
             }
-            finally
-            {
-                conn.Close();
-            }
 
             return rows;
         }
 
         public int GetSizeOfRepo()
         {
+            using SqlConnection conn = new SqlConnection(getConnectionString());
             const string query = "SELECT COUNT(*) FROM Faculties";
             SqlCommand cmd = new SqlCommand(query, conn);
             int count;
@@ -151,10 +142,6 @@
                 Console.WriteLine(ex.Message);
                 count = -2;
             }
-            finally
-            {
-                conn.Close();
-            }
 
             return count;
         }
@@ -162,30 +149,29 @@
         public List<Faculty> GetBatch(int start, int count)
         {
             List<Faculty> ret = new List<Faculty>();
-            SqlCommand cmd = new SqlCommand("SELECT * FROM Faculties " +
-                                            "ORDER BY facult_name " +
-                                            "OFFSET " + start + " ROWS " +
-                                            "FETCH NEXT " + count + " ROWS ONLY", conn);
-            try
+            using (SqlConnection conn = new SqlConnection(getConnectionString()))
             {
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Faculties " +
+                                                "ORDER BY facult_name " +
+                                                "OFFSET " + start + " ROWS " +
+                                                "FETCH NEXT " + count + " ROWS ONLY", conn);
+                try
                 {
-                    ret.Add(new Faculty((int)reader[0],
-                                        (string)reader[1],
-                                        (int)reader[2],
-                                        (int)reader[3]));
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        ret.Add(new Faculty((int)reader[0],
+                                            (string)reader[1],
+                                            (int)reader[2],
+                                            (int)reader[3]));
+                    }
+                    reader.Close();
                 }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                conn.Close();
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
 
             return ret;

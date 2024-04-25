@@ -5,17 +5,10 @@
 
     public class UniversityRepository
     {
-        //private SqlConnection conn;
-
         private string getConnectionString()
         {
             return "Data source=localhost,1235;Initial Catalog=UnivDB;" +
                 "User Id=universityuser;Password=root;Encrypt=False";
-        }
-
-        public UniversityRepository()
-        {
-            //conn = new SqlConnection(getConnectionString());
         }
 
         public int AddUniversity(University uni)
