@@ -66,7 +66,9 @@
                 }
             }
 
-            return ret[0];
+            if (ret.Count > 0)
+                return ret[0];
+            return null;
         }
 
         public int UpdateFaculty(Faculty faculty)
@@ -139,12 +141,13 @@
             return count;
         }
 
-        public List<Faculty> GetBatch(int start, int count)
+        public List<FacultyExtended> GetBatch(int start, int count)
         {
-            List<Faculty> ret = new List<Faculty>();
+            List<FacultyExtended> ret = new List<FacultyExtended>();
             using (SqlConnection conn = new SqlConnection(getConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Faculties " +
+                SqlCommand cmd = new SqlCommand("SELECT F.*, U.uni_name " + 
+                                                "FROM Faculties F INNER JOIN Universities U ON F.uni_id = U.uni_id " +
                                                 "ORDER BY facult_name " +
                                                 "OFFSET " + start + " ROWS " +
                                                 "FETCH NEXT " + count + " ROWS ONLY", conn);
@@ -154,10 +157,11 @@
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        ret.Add(new Faculty((int)reader[0],
-                                            (string)reader[1],
-                                            (int)reader[2],
-                                            (int)reader[3]));
+                        ret.Add(new FacultyExtended((int)reader[0],
+                                                    (string)reader[1],
+                                                    (int)reader[2],
+                                                    (int)reader[3],
+                                                    (string)reader[4]));
                     }
                     reader.Close();
                 }

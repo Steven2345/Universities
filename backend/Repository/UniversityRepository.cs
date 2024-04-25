@@ -183,12 +183,12 @@
             return ret;
         }
 
-        public List<object> GroupByUniId()
+        public List<UniversityExtended> GroupByUniId()
         {
-            List<object> ret = new List<object>();
+            List<UniversityExtended> ret = new List<UniversityExtended>();
             using (SqlConnection conn = new SqlConnection(getConnectionString()))
             {
-                const string query = "SELECT U.uni_name AS uni_name, U.uni_location AS uni_location, t.faculties " +
+                const string query = "SELECT U.*, ISNULL(t.faculties, 0) " +
                                      "FROM Universities U LEFT JOIN (SELECT uni_id, COUNT(*) AS faculties " +
                                                                     "FROM Faculties " +
                                                                     "GROUP BY uni_id) t ON t.uni_id = U.uni_id";
@@ -200,12 +200,42 @@
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        ret.Add(new
-                        {
-                            uni_name = (string)reader[0],
-                            uni_location = (string)reader[1],
-                            faculties = (int)reader[2]
-                        });
+                        ret.Add(new UniversityExtended((int)reader[0],
+                                                       (string)reader[1],
+                                                       (string)reader[2],
+                                                       (int)reader[5],
+                                                       (double)reader[3],
+                                                       (string)reader[4]));
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            return ret;
+        }
+
+        public List<UniversityMinimal> GetUniversityNames()
+        {
+            List<UniversityMinimal> ret = new List<UniversityMinimal>();
+            using (SqlConnection conn = new SqlConnection(getConnectionString()))
+            {
+                const string query = "SELECT U.uni_id, U.uni_name " +
+                                     "FROM Universities U " +
+                                     "ORDER BY U.uni_name ASC";
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                try
+                {
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        ret.Add(new UniversityMinimal((int)reader[0],
+                                                      (string)reader[1]));
                     }
                     reader.Close();
                 }

@@ -21,7 +21,7 @@ namespace backend.Service
         {
             Faculty? ret = facultyRepo.SearchFaculty(id);
             if (ret == null)
-                return new Faculty(0, "", -1, 0);
+                return new Faculty(0, "", -2, 0);
             return ret;
         }
 
@@ -40,7 +40,7 @@ namespace backend.Service
             return facultyRepo.GetSizeOfRepo();
         }
 
-        public List<Faculty> GetBatch(int start, int count) 
+        public List<FacultyExtended> GetBatch(int start, int count) 
         {
             return facultyRepo.GetBatch(start, count);
         }

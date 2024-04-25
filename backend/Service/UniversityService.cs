@@ -28,7 +28,7 @@
         {
             University? ret = uniRepo.SearchUniversity(id);
             if (ret == null)
-                return new University(0, "", "", -1, "");
+                return new University(0, "", "", -2, "");
             return ret;
         }
 
