@@ -31,7 +31,7 @@ namespace backend
             UniversityRepository repo2 = new UniversityRepository();
 
             var faker = new Faker("en_US");
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 90000; i++)
             {
                 string city = faker.Address.City();
                 var f = new Faculty(

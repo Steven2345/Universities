@@ -46,8 +46,8 @@
                 const string query = "SELECT U.*, ISNULL(t.faculties, 0) " +
                                      "FROM Universities U LEFT JOIN (SELECT uni_id, COUNT(*) AS faculties " +
                                                                     "FROM Faculties " +
-                                                                    "GROUP BY uni_id " +
-                                                                    "HAVING uni_id=@id) t ON t.uni_id = U.uni_id ";
+                                                                    "GROUP BY uni_id) t ON t.uni_id = U.uni_id " + 
+                                     "WHERE U.uni_id=@id";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@id", id);
 
@@ -64,7 +64,7 @@
                                                        (double)reader[3],
                                                        (string)reader[4]);
                         ret.Add(u);
-                        Console.WriteLine(u.ToString());
+                        //Console.WriteLine(u.ToString());
                     }
                     reader.Close();
                 }

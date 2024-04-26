@@ -33,6 +33,7 @@ using backend.Service;
 
 
 //Generator.populateUniversities();
+//Generator.populateFaculties();
 
 UniversityService universityService = new UniversityService();
 FacultyService facultyService = new FacultyService();

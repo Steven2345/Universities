@@ -99,9 +99,9 @@ namespace backend.Test
         [Test]
         public void AddToRepo_SuccessiveAdds_ReturnSuccessiveIDs()
         {
-            Faculty u1 = new Faculty(1, "asdf", 500, 1);
+            Faculty u1 = new Faculty(1, "asdf", 500, 2);
             Faculty u2 = new Faculty(1, "qwer", 600, 2);
-            Faculty u3 = new Faculty(1, "zxcv", 900, 3);
+            Faculty u3 = new Faculty(1, "zxcv", 900, 2);
 
             int id1 = firstID = repo.AddFaculty(u1);
             int id2 = repo.AddFaculty(u2);
@@ -114,7 +114,7 @@ namespace backend.Test
         [Test]
         public void SearchInRepo()
         {
-            Faculty u1 = new Faculty(1, "asdf", 500, 1);
+            Faculty u1 = new Faculty(1, "asdf", 500, 2);
             int id = repo.AddFaculty(u1);
 
             FacultyExtended? u = repo.SearchFaculty(id);
@@ -143,9 +143,9 @@ namespace backend.Test
         [Test]
         public void DeleteFromRepo()
         {
-            Faculty u1 = new Faculty(1, "asdf", 500, 1);
+            Faculty u1 = new Faculty(1, "asdf", 500, 2);
             Faculty u2 = new Faculty(1, "qwer", 600, 2);
-            Faculty u3 = new Faculty(1, "zxcv", 900, 3);
+            Faculty u3 = new Faculty(1, "zxcv", 900, 2);
 
             int id1 = repo.AddFaculty(u1);
             int id2 = repo.AddFaculty(u2);
