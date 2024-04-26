@@ -188,7 +188,7 @@
             return ret;
         }
 
-        public List<UniversityExtended> GroupByUniId(int start, int count)
+        public List<UniversityExtended> GroupByUniId(int page, int count)
         {
             List<UniversityExtended> ret = new List<UniversityExtended>();
             using (SqlConnection conn = new SqlConnection(getConnectionString()))
@@ -201,7 +201,7 @@
                                      "OFFSET @start ROWS " +
                                      "FETCH NEXT @count ROWS ONLY";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@start", start);
+                cmd.Parameters.AddWithValue("@start", page * 10);
                 cmd.Parameters.AddWithValue("@count", count);
 
                 try

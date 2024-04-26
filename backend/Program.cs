@@ -53,8 +53,8 @@ var app = builder.Build();
 
 app.UseCors(MyAllowSpecificOrigins);
 
-app.MapGet("/", () => { Console.WriteLine("hit"); return universityService.GetBatchExtended(0, 50); });
-app.MapGet("/{page}", (int page) => universityService.GetBatchExtended(page, 50));
+app.MapGet("/", () => { Console.WriteLine("hit"); return universityService.GetBatchExtended(0, 10); });
+app.MapGet("/{page}", (int page) => universityService.GetBatchExtended(page, 10));
 app.MapGet("/names", () => universityService.GetAllNames());
 app.MapGet("/details/{id}", (int id) => universityService.getById(id));
 app.MapPost("/add", (UniversityNoId uni) =>
@@ -68,9 +68,9 @@ app.MapGet("/faculties", () => facultyService.GetBatch(0, 50));
 app.MapGet("/faculties/{page}", (int page) => facultyService.GetBatch(page, 50));
 app.MapGet("/faculties/details/{id}", (int id) => facultyService.getById(id));
 app.MapPost("/faculties/add", (FacultyNoId fcl) =>
-    facultyService.AddFaculty(new Faculty(1, fcl.Name, fcl.NoOfStudents, fcl.University)));
+    facultyService.AddFaculty(new Faculty(1, fcl.Name, fcl.NoOfStudents, fcl.UniversityID)));
 app.MapPut("/faculties/edit/{id}", (FacultyNoId fcl, int id) =>
-    facultyService.UpdateFaculty(new Faculty(id, fcl.Name, fcl.NoOfStudents, fcl.University)));
+    Console.WriteLine(fcl));
 app.MapDelete("/faculties/delete/{id}", (int id) =>
     facultyService.DeleteFaculty(id));
 

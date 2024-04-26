@@ -20,7 +20,7 @@
             SqlCommand cmd = new SqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@name", faculty.Name);
             cmd.Parameters.AddWithValue("@nostud", faculty.NoOfStudents);
-            cmd.Parameters.AddWithValue("@uniid", faculty.University);
+            cmd.Parameters.AddWithValue("@uniid", faculty.UniversityID);
             int index;
 
             try
@@ -85,7 +85,7 @@
             cmd.Parameters.AddWithValue("@id", faculty.Id);
             cmd.Parameters.AddWithValue("@name", faculty.Name);
             cmd.Parameters.AddWithValue("@nostud", faculty.NoOfStudents);
-            cmd.Parameters.AddWithValue("@uniid", faculty.University);
+            cmd.Parameters.AddWithValue("@uniid", faculty.UniversityID);
             int rows;
 
             try

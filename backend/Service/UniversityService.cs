@@ -54,9 +54,9 @@
             return uniRepo.GetBatch(start, count);
         }
 
-        public List<UniversityExtended> GetBatchExtended(int start, int count) 
+        public List<UniversityExtended> GetBatchExtended(int page, int count) 
         {
-            return uniRepo.GroupByUniId(start, count);
+            return uniRepo.GroupByUniId(page, count);
         }
 
         public List<UniversityMinimal> GetAllNames()
