@@ -57,12 +57,14 @@
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        ret.Add(new UniversityExtended((int)reader[0],
+                        var u = new UniversityExtended((int)reader[0],
                                                        (string)reader[1],
                                                        (string)reader[2],
                                                        (int)reader[5],
                                                        (double)reader[3],
-                                                       (string)reader[4]));
+                                                       (string)reader[4]);
+                        ret.Add(u);
+                        Console.WriteLine(u.ToString());
                     }
                     reader.Close();
                 }

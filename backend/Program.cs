@@ -26,8 +26,13 @@ foreach (University u in repo.GetBatch(5, 15))
 }*/
 
 
+using backend;
+
 using backend.Domain;
 using backend.Service;
+
+
+//Generator.populateUniversities();
 
 UniversityService universityService = new UniversityService();
 FacultyService facultyService = new FacultyService();

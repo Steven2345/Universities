@@ -35,7 +35,7 @@ namespace backend.Test
             University u1 = new University(1, "asdf", "asdf", 34, "asdf");
             int id = repo.AddUniversity(u1);
 
-            University? u = repo.SearchUniversity(id);
+            UniversityExtended? u = repo.SearchUniversity(id);
 
             Assert.IsNotNull(u);
             Assert.That(u.Name == "asdf", Is.True);
@@ -46,14 +46,14 @@ namespace backend.Test
         {
             University uu = new University(1, "qwer", "asdf", 34, "asdf");
             int id2 = lastID = repo.AddUniversity(uu);
-            University? u1 = repo.SearchUniversity(id2);
+            UniversityExtended? u1 = repo.SearchUniversity(id2);
 
             Assert.IsNotNull(u1);
             University u2 = new University(u1.Id, "ASDF", u1.Location, u1.Score, u1.Description);
             repo.UpdateUniversity(u2);
             Assert.That(u1.Name == "qwer");
 
-            University? u11 = repo.SearchUniversity(id2);
+            UniversityExtended? u11 = repo.SearchUniversity(id2);
             Assert.IsNotNull(u11);
             Assert.That(u11.Name == "ASDF", Is.True);
         }
@@ -117,7 +117,7 @@ namespace backend.Test
             Faculty u1 = new Faculty(1, "asdf", 500, 1);
             int id = repo.AddFaculty(u1);
 
-            Faculty? u = repo.SearchFaculty(id);
+            FacultyExtended? u = repo.SearchFaculty(id);
 
             Assert.IsNotNull(u);
             Assert.That(u.Name == "asdf", Is.True);
@@ -128,14 +128,14 @@ namespace backend.Test
         {
             Faculty uu = new Faculty(1, "qwer", 600, 2);
             int id2 = lastID = repo.AddFaculty(uu);
-            Faculty? u1 = repo.SearchFaculty(id2);
+            FacultyExtended? u1 = repo.SearchFaculty(id2);
 
             Assert.IsNotNull(u1);
-            Faculty u2 = new Faculty(u1.Id, "ASDF", u1.NoOfStudents, u1.University);
+            Faculty u2 = new Faculty(u1.Id, "ASDF", u1.NoOfStudents, u1.UniversityID);
             repo.UpdateFaculty(u2);
             Assert.That(u1.Name == "qwer");
 
-            Faculty? u11 = repo.SearchFaculty(id2);
+            FacultyExtended? u11 = repo.SearchFaculty(id2);
             Assert.IsNotNull(u11);
             Assert.That(u11.Name == "ASDF", Is.True);
         }

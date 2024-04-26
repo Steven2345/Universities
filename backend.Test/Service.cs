@@ -35,7 +35,7 @@ namespace backend.Test
             University u1 = new University(1, "asdf", "asdf", 34, "asdf");
             int id = serv.AddUniversity(u1);
 
-            University u = serv.getById(id);
+            UniversityExtended u = serv.getById(id);
 
             Assert.That(u.Name, Is.Not.EqualTo(""));
             Assert.That(u.Name == "asdf", Is.True);
@@ -46,14 +46,14 @@ namespace backend.Test
         {
             University uu = new University(1, "qwer", "asdf", 34, "asdf");
             int id2 = lastID = serv.AddUniversity(uu);
-            University u1 = serv.getById(id2);
+            UniversityExtended u1 = serv.getById(id2);
 
             Assert.That(u1.Name, Is.Not.EqualTo(""));
             University u2 = new University(u1.Id, "ASDF", u1.Location, u1.Score, u1.Description);
             serv.UpdateUniversity(u2);
             Assert.That(u1.Name == "qwer");
 
-            University u11 = serv.getById(id2);
+            UniversityExtended u11 = serv.getById(id2);
             Assert.That(u11.Name, Is.Not.EqualTo(""));
             Assert.That(u11.Name == "ASDF", Is.True);
         }
@@ -117,7 +117,7 @@ namespace backend.Test
             Faculty u1 = new Faculty(1, "asdf", 500, 1);
             int id = serv.AddFaculty(u1);
 
-            Faculty u = serv.getById(id);
+            FacultyExtended u = serv.getById(id);
 
             Assert.That(u.Name, Is.Not.EqualTo(""));
             Assert.That(u.Name == "asdf", Is.True);
@@ -128,14 +128,14 @@ namespace backend.Test
         {
             Faculty uu = new Faculty(1, "qwer", 600, 2);
             int id2 = lastID = serv.AddFaculty(uu);
-            Faculty u1 = serv.getById(id2);
+            FacultyExtended u1 = serv.getById(id2);
 
             Assert.That(u1.Name, Is.Not.EqualTo(""));
-            Faculty u2 = new Faculty(u1.Id, "ASDF", u1.NoOfStudents, u1.University);
+            Faculty u2 = new Faculty(u1.Id, "ASDF", u1.NoOfStudents, u1.UniversityID);
             serv.UpdateFaculty(u2);
             Assert.That(u1.Name == "qwer");
 
-            Faculty u11 = serv.getById(id2);
+            FacultyExtended u11 = serv.getById(id2);
             Assert.That(u11.Name, Is.Not.EqualTo(""));
             Assert.That(u11.Name == "ASDF", Is.True);
         }
