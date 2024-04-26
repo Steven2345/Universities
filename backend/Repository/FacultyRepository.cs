@@ -37,12 +37,15 @@
             return index;
         }
 
-        public Faculty? SearchFaculty(int id)
+        public FacultyExtended? SearchFaculty(int id)
         {
-            List<Faculty?> ret = [];
+            List<FacultyExtended?> ret = [];
             using (SqlConnection conn = new SqlConnection(getConnectionString()))
             {
-                const string query = "SELECT * FROM Faculties WHERE facult_id=@id";
+                const string query = "SELECT t.*, U.uni_name " +
+                                     "FROM Universities U INNER JOIN (SELECT * " + 
+                                                                     "FROM Faculties " + 
+                                                                     "WHERE facult_id=@id) t ON U.uni_id = t.uni_id";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@id", id);
 
@@ -52,10 +55,11 @@
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        ret.Add(new Faculty((int)reader[0],
-                                            (string)reader[1],
-                                            (int)reader[2],
-                                            (int)reader[3]));
+                        ret.Add(new FacultyExtended((int)reader[0],
+                                                    (string)reader[1],
+                                                    (int)reader[2],
+                                                    (int)reader[3],
+                                                    (string)reader[4]));
                     }
                     reader.Close();
                 }

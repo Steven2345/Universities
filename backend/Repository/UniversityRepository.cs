@@ -38,12 +38,16 @@
             return index;
         }
 
-        public University? SearchUniversity(int id)
+        public UniversityExtended? SearchUniversity(int id)
         {
-            List<University?> ret = [];
+            List<UniversityExtended?> ret = [];
             using (SqlConnection conn = new SqlConnection(getConnectionString()))
             {
-                const string query = "SELECT * FROM Universities WHERE uni_id=@id";
+                const string query = "SELECT U.*, ISNULL(t.faculties, 0) " +
+                                     "FROM Universities U LEFT JOIN (SELECT uni_id, COUNT(*) AS faculties " +
+                                                                    "FROM Faculties " +
+                                                                    "GROUP BY uni_id " +
+                                                                    "HAVING uni_id=@id) t ON t.uni_id = U.uni_id ";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@id", id);
 
@@ -53,11 +57,12 @@
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        ret.Add(new University((int)reader[0],
-                                               (string)reader[1],
-                                               (string)reader[2],
-                                               (double)reader[3],
-                                               (string)reader[4]));
+                        ret.Add(new UniversityExtended((int)reader[0],
+                                                       (string)reader[1],
+                                                       (string)reader[2],
+                                                       (int)reader[5],
+                                                       (double)reader[3],
+                                                       (string)reader[4]));
                     }
                     reader.Close();
                 }
@@ -183,7 +188,7 @@
             return ret;
         }
 
-        public List<UniversityExtended> GroupByUniId()
+        public List<UniversityExtended> GroupByUniId(int start, int count)
         {
             List<UniversityExtended> ret = new List<UniversityExtended>();
             using (SqlConnection conn = new SqlConnection(getConnectionString()))
@@ -191,8 +196,13 @@
                 const string query = "SELECT U.*, ISNULL(t.faculties, 0) " +
                                      "FROM Universities U LEFT JOIN (SELECT uni_id, COUNT(*) AS faculties " +
                                                                     "FROM Faculties " +
-                                                                    "GROUP BY uni_id) t ON t.uni_id = U.uni_id";
+                                                                    "GROUP BY uni_id) t ON t.uni_id = U.uni_id " + 
+                                     "ORDER BY U.uni_score DESC " +
+                                     "OFFSET @start ROWS " +
+                                     "FETCH NEXT @count ROWS ONLY";
                 SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@start", start);
+                cmd.Parameters.AddWithValue("@count", count);
 
                 try
                 {

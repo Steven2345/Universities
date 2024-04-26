@@ -17,11 +17,11 @@ namespace backend.Service
             return facultyRepo.AddFaculty(faculty);
         }
 
-        public Faculty getById(int id)
+        public FacultyExtended getById(int id)
         {
-            Faculty? ret = facultyRepo.SearchFaculty(id);
+            FacultyExtended? ret = facultyRepo.SearchFaculty(id);
             if (ret == null)
-                return new Faculty(0, "", -2, 0);
+                return new FacultyExtended(0, "", -2, 0, "");
             return ret;
         }
 

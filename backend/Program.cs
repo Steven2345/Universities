@@ -41,7 +41,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:5173");
+                          policy.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader();
                       });
 });
 
@@ -53,8 +53,9 @@ var app = builder.Build();
 
 app.UseCors(MyAllowSpecificOrigins);
 
-app.MapGet("/", () => universityService.GetBatch(0, 50));
-app.MapGet("/{page}", (int page) => universityService.GetBatch(page, 50));
+app.MapGet("/", () => { Console.WriteLine("hit"); return universityService.GetBatchExtended(0, 50); });
+app.MapGet("/{page}", (int page) => universityService.GetBatchExtended(page, 50));
+app.MapGet("/names", () => universityService.GetAllNames());
 app.MapGet("/details/{id}", (int id) => universityService.getById(id));
 app.MapPost("/add", (UniversityNoId uni) =>
     universityService.AddUniversity(new University(1, uni.Name, uni.Location, uni.Score, uni.Description)));
@@ -74,3 +75,18 @@ app.MapDelete("/faculties/delete/{id}", (int id) =>
     facultyService.DeleteFaculty(id));
 
 app.Run();
+
+
+
+/*
+app.MapPut("/edit/{id}", (object uni, int id) =>
+{
+    Console.WriteLine(uni);
+    /*
+    Console.WriteLine(uni.Name);
+    Console.WriteLine(uni.Location);
+    Console.WriteLine(uni.Score);
+    Console.WriteLine(uni.Description);
+    return universityService.UpdateUniversity(new University(id, uni.Name, uni.Location, uni.Score, uni.Description));
+*});
+*/

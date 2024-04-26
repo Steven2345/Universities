@@ -24,11 +24,11 @@
             return -1;
         }
 
-        public University getById(int id) 
+        public UniversityExtended getById(int id) 
         {
-            University? ret = uniRepo.SearchUniversity(id);
+            UniversityExtended? ret = uniRepo.SearchUniversity(id);
             if (ret == null)
-                return new University(0, "", "", -2, "");
+                return new UniversityExtended(0, "", "", -1, -2, "");
             return ret;
         }
 
@@ -52,6 +52,16 @@
         public List<University> GetBatch(int start, int count)
         {
             return uniRepo.GetBatch(start, count);
+        }
+
+        public List<UniversityExtended> GetBatchExtended(int start, int count) 
+        {
+            return uniRepo.GroupByUniId(start, count);
+        }
+
+        public List<UniversityMinimal> GetAllNames()
+        {
+            return uniRepo.GetUniversityNames();
         }
     }
 }
