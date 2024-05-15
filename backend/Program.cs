@@ -44,6 +44,7 @@ var app = builder.Build();
 FacultyService facultyService = app.Services.GetService<FacultyService>() ?? throw new Exception();
 UniversityService universityService = app.Services.GetService<UniversityService>() ?? throw new Exception();
 
+//app.Services.GetService<Generator>();  // needs to be uncommented! otherwise, Generator is not initialised
 //Generator.populateUniversities();
 //Generator.populateFaculties();
 
