@@ -27,6 +27,13 @@ namespace backend.Service
 
         public int UpdateFaculty(Faculty faculty)
         {
+            FacultyExtended? faculFromDb = facultyRepo.SearchFaculty(faculty.Id);
+            if (faculFromDb == null)
+                return 0;
+
+            if (faculFromDb.Author != faculty.Author)
+                return -1;
+
             return facultyRepo.UpdateFaculty(faculty);
         }
 

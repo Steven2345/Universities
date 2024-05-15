@@ -34,8 +34,16 @@
 
         public int UpdateUniversity(University university)
         {
+            UniversityExtended? uniFromDb = uniRepo.SearchUniversity(university.Id);
+            if (uniFromDb == null)
+                return 0;
+
+            if (uniFromDb.Author != university.Author)
+                return -1;
+
             if (university.Score >= 0 && university.Score <= 100)
                 return uniRepo.UpdateUniversity(university);
+
             return -1;
         }
 
