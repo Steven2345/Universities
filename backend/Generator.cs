@@ -4,11 +4,20 @@ using Bogus;
 
 namespace backend
 {
-    public static class Generator
+    public class Generator
     {
+        private static UniversityRepository? uniRepo;
+        private static FacultyRepository? facultyRepo;
+
+        public Generator(UniversityRepository uni, FacultyRepository facul)
+        {
+            uniRepo = uni;
+            facultyRepo = facul;
+        }
+
         public static void populateUniversities()
         {
-            UniversityRepository repo = new UniversityRepository();
+            UniversityRepository repo = uniRepo ?? throw new ArgumentNullException();
 
             var faker = new Faker("en_US");
             for (int i = 0; i < 10000; i++)
@@ -28,8 +37,8 @@ namespace backend
 
         public static void populateFaculties()
         {
-            FacultyRepository repo = new FacultyRepository();
-            UniversityRepository repo2 = new UniversityRepository();
+            FacultyRepository repo = facultyRepo ?? throw new ArgumentNullException();
+            UniversityRepository repo2 = uniRepo ?? throw new ArgumentNullException();
 
             static string CapitalizeFirstLetter(string s)
             {

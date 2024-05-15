@@ -1,3 +1,4 @@
+using backend;
 using backend.Domain;
 using backend.Repository;
 using backend.Service;
@@ -8,8 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 
-//Generator.populateUniversities();
-//Generator.populateFaculties();
 
 var MyAllowSpecificOrigins = "randomStringTheySay";
 var builder = WebApplication.CreateBuilder(args);
