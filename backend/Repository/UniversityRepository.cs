@@ -225,10 +225,10 @@
                         ret.Add(new UniversityExtended((int)reader[0],
                                                        (string)reader[1],
                                                        (string)reader[2],
-                                                       (int)reader[5],
+                                                       (int)reader[6],
                                                        (double)reader[3],
                                                        (string)reader[4],
-                                                       (string)reader[6]));
+                                                       (string)reader[5]));
                     }
                     reader.Close();
                 }
