@@ -30,8 +30,18 @@ namespace backend.Service
             return facultyRepo.UpdateFaculty(faculty);
         }
 
-        public int DeleteFaculty(int id)
+        public int DeleteFaculty(int id, string? author)
         {
+            if (author == null)
+                return 2;
+
+            FacultyExtended? faculty = facultyRepo.SearchFaculty(id);
+            if (faculty == null)
+                return 0;
+
+            if (faculty.Author != author)
+                return -1;
+
             return facultyRepo.DeleteFaculty(id);
         }
 

@@ -56,7 +56,7 @@ app.MapPut("/edit/{id}", (UniversityNoId uni, int id, HttpContext context) =>
                                                context.User.FindFirstValue(ClaimTypes.NameIdentifier))))
         .RequireAuthorization();
 app.MapDelete("/delete/{id}", (int id, HttpContext context) =>
-    universityService.DeleteUniversity(id))
+    universityService.DeleteUniversity(id, context.User.FindFirstValue(ClaimTypes.NameIdentifier)))
         .RequireAuthorization();
 
 app.MapGet("/faculties", () => facultyService.GetBatch(0, 50));
@@ -71,7 +71,7 @@ app.MapPut("/faculties/edit/{id}", (FacultyNoId fcl, int id, HttpContext context
                                          context.User.FindFirstValue(ClaimTypes.NameIdentifier))))
         .RequireAuthorization();
 app.MapDelete("/faculties/delete/{id}", (int id, HttpContext context) =>
-    facultyService.DeleteFaculty(id))
+    facultyService.DeleteFaculty(id, context.User.FindFirstValue(ClaimTypes.NameIdentifier)))
         .RequireAuthorization();
 
 app.MapIdentityApi<IdentityUser>();

@@ -39,8 +39,18 @@
             return -1;
         }
 
-        public int DeleteUniversity(int id)
+        public int DeleteUniversity(int id, string? author)
         {
+            if (author == null)
+                return 2;
+
+            UniversityExtended? university = uniRepo.SearchUniversity(id);
+            if (university == null)
+                return 0;
+
+            if (university.Author != author)
+                return -1;
+
             return uniRepo.DeleteUniversity(id);
         }
 
