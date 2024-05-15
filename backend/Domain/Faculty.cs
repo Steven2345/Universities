@@ -9,9 +9,9 @@ namespace backend.Domain
         public string Name { get; }
         public int NoOfStudents { get; }
         public int UniversityID { get; }
-        public string Author { get; }
+        public string? Author { get; }
 
-        public Faculty(int id, string name, int noOfStudents, int university, string author)
+        public Faculty(int id, string name, int noOfStudents, int university, string? author)
         {
             Id = id;
             Name = name;
