@@ -9,13 +9,15 @@ namespace backend.Domain
         public string Name { get; }
         public int NoOfStudents { get; }
         public int UniversityID { get; }
+        public string Author { get; }
 
-        public Faculty(int id, string name, int noOfStudents, int university)
+        public Faculty(int id, string name, int noOfStudents, int university, string author)
         {
             Id = id;
             Name = name;
             NoOfStudents = noOfStudents;
             UniversityID = university;
+            Author = author;
         }
 
         public Faculty(DataRow row)
@@ -24,6 +26,7 @@ namespace backend.Domain
             Name = (string)row["facult_name"];
             NoOfStudents = (int)row["facult_nostud"];
             UniversityID = (int)row["uni_id"];
+            Author = (string)row["user_id"];
         }
     }
 }
