@@ -11,7 +11,7 @@ namespace backend.Test
         [SetUp]
         public void Setup()
         {
-            repo = new UniversityRepository();
+            repo = new UniversityRepository("Data source=localhost,1235;Initial Catalog=UnivDB;User Id=universityuser;Password=root;Encrypt=False");
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace backend.Test
         [SetUp]
         public void Setup()
         {
-            repo = new FacultyRepository();
+            repo = new FacultyRepository("Data source=localhost,1235;Initial Catalog=UnivDB;User Id=universityuser;Password=root;Encrypt=False");
         }
 
         [Test]
