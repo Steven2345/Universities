@@ -23,13 +23,14 @@
         public int AddFaculty(Faculty faculty)
         {
             using SqlConnection conn = new SqlConnection(getConnectionString());
-            const string query = "INSERT INTO Faculties(facult_name, facult_nostud, uni_id) " +
-                                 "VALUES(@name, @nostud, @uniid);" +
+            const string query = "INSERT INTO Faculties(facult_name, facult_nostud, uni_id, user_id) " +
+                                 "VALUES(@name, @nostud, @uniid, @userid);" +
                                  "SELECT SCOPE_IDENTITY()";
             SqlCommand cmd = new SqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@name", faculty.Name);
             cmd.Parameters.AddWithValue("@nostud", faculty.NoOfStudents);
             cmd.Parameters.AddWithValue("@uniid", faculty.UniversityID);
+            cmd.Parameters.AddWithValue("@userid", faculty.Author);
             int index;
 
             try
@@ -68,8 +69,8 @@
                                                     (string)reader[1],
                                                     (int)reader[2],
                                                     (int)reader[3],
-                                                    (string)reader[4],
-                                                    (string)reader[5]));
+                                                    (string)reader[5],
+                                                    (string)reader[4]));
                     }
                     reader.Close();
                 }

@@ -21,14 +21,15 @@
         public int AddUniversity(University uni)
         {
             using SqlConnection conn = new SqlConnection(getConnectionString());
-            const string query = "INSERT INTO Universities(uni_name, uni_location, uni_score, uni_descr) " +
-                                 "VALUES(@name, @location, @score, @descr);" +
+            const string query = "INSERT INTO Universities(uni_name, uni_location, uni_score, uni_descr, user_id) " +
+                                 "VALUES(@name, @location, @score, @descr, @userid);" +
                                  "SELECT SCOPE_IDENTITY()";
             SqlCommand cmd = new SqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@name", uni.Name);
             cmd.Parameters.AddWithValue("@location", uni.Location);
             cmd.Parameters.AddWithValue("@score", uni.Score);
             cmd.Parameters.AddWithValue("@descr", uni.Description);
+            cmd.Parameters.AddWithValue("@userid", uni.Author);
             int index;
 
             try
@@ -67,10 +68,10 @@
                         var u = new UniversityExtended((int)reader[0],
                                                        (string)reader[1],
                                                        (string)reader[2],
-                                                       (int)reader[5],
+                                                       (int)reader[6],
                                                        (double)reader[3],
                                                        (string)reader[4],
-                                                       (string)reader[6]);
+                                                       (string)reader[5]);
                         ret.Add(u);
                         //Console.WriteLine(u.ToString());
                     }
