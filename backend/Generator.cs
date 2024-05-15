@@ -19,7 +19,8 @@ namespace backend
                     city + " University",
                     city + ", " + faker.Address.State(),
                     faker.Random.Double() * 100,
-                    faker.Lorem.Sentences()
+                    faker.Lorem.Sentences(),
+                    "405a73b0-38b3-444c-8a31-3fb58728ed48"
                 );
                 repo.AddUniversity( u );
             }
@@ -47,7 +48,8 @@ namespace backend
                         CapitalizeFirstLetter(faker.Lorem.Word()) + " " +
                         CapitalizeFirstLetter(faker.Lorem.Word()),
                     faker.Random.Byte() * 10,
-                    faker.Random.ListItem<UniversityMinimal>(repo2.GetUniversityNames()).Id
+                    faker.Random.ListItem<UniversityMinimal>(repo2.GetUniversityNames()).Id,
+                    "405a73b0-38b3-444c-8a31-3fb58728ed48"
                 );
                 repo.AddFaculty(f);
             }
