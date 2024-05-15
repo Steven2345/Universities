@@ -30,13 +30,22 @@ namespace backend
             FacultyRepository repo = new FacultyRepository();
             UniversityRepository repo2 = new UniversityRepository();
 
-            var faker = new Faker("en_US");
-            for (int i = 0; i < 90000; i++)
+            static string CapitalizeFirstLetter(string s)
             {
-                string city = faker.Address.City();
+                if (s.Length < 4)
+                    return s;
+                return s.Remove(1).ToUpper() + s.Substring(1);
+            }
+
+            var faker = new Faker("en_US");
+            for (int i = 0; i < 5000; i++)
+            {
                 var f = new Faculty(
                     1,
-                    "Faculty of " + faker.Lorem.Words(),
+                    "Faculty of " + 
+                        CapitalizeFirstLetter(faker.Lorem.Word()) + " " +
+                        CapitalizeFirstLetter(faker.Lorem.Word()) + " " +
+                        CapitalizeFirstLetter(faker.Lorem.Word()),
                     faker.Random.Byte() * 10,
                     faker.Random.ListItem<UniversityMinimal>(repo2.GetUniversityNames()).Id
                 );
