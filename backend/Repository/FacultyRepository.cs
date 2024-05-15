@@ -59,7 +59,8 @@
                                                     (string)reader[1],
                                                     (int)reader[2],
                                                     (int)reader[3],
-                                                    (string)reader[4]));
+                                                    (string)reader[4],
+                                                    (string)reader[5]));
                     }
                     reader.Close();
                 }
@@ -165,7 +166,8 @@
                                                     (string)reader[1],
                                                     (int)reader[2],
                                                     (int)reader[3],
-                                                    (string)reader[4]));
+                                                    (string)reader[4],
+                                                    (string)reader[5]));
                     }
                     reader.Close();
                 }

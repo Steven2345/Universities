@@ -62,7 +62,8 @@
                                                        (string)reader[2],
                                                        (int)reader[5],
                                                        (double)reader[3],
-                                                       (string)reader[4]);
+                                                       (string)reader[4],
+                                                       (string)reader[6]);
                         ret.Add(u);
                         //Console.WriteLine(u.ToString());
                     }
@@ -171,7 +172,8 @@
                                                 (string)reader[1],
                                                 (string)reader[2],
                                                 (double)reader[3],
-                                                (string)reader[4]));
+                                                (string)reader[4],
+                                                (string)reader[5]));
                     }
                     reader.Close();
                 }
@@ -217,7 +219,8 @@
                                                        (string)reader[2],
                                                        (int)reader[5],
                                                        (double)reader[3],
-                                                       (string)reader[4]));
+                                                       (string)reader[4],
+                                                       (string)reader[6]));
                     }
                     reader.Close();
                 }

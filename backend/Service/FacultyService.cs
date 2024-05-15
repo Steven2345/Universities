@@ -21,7 +21,7 @@ namespace backend.Service
         {
             FacultyExtended? ret = facultyRepo.SearchFaculty(id);
             if (ret == null)
-                return new FacultyExtended(0, "", -2, 0, "");
+                return new FacultyExtended(0, "", -2, 0, "", "");
             return ret;
         }
 
