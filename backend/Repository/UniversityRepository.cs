@@ -5,10 +5,17 @@
 
     public class UniversityRepository
     {
+        private readonly string connectionString;
+
+        public UniversityRepository(string? connectionString)
+        {
+            ArgumentNullException.ThrowIfNull(connectionString);
+
+            this.connectionString = connectionString;
+        }
         private string getConnectionString()
         {
-            return "Data source=localhost,1235;Initial Catalog=UnivDB;" +
-                "User Id=universityuser;Password=root;Encrypt=False";
+            return connectionString;
         }
 
         public int AddUniversity(University uni)

@@ -12,9 +12,9 @@
     {
         private UniversityRepository uniRepo;
 
-        public UniversityService()
+        public UniversityService(UniversityRepository universityRepository)
         {
-            uniRepo = new UniversityRepository();
+            uniRepo = universityRepository;
         }
 
         public int AddUniversity(University university)

@@ -1,4 +1,5 @@
 using backend.Domain;
+using backend.Repository;
 using backend.Service;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -10,10 +11,6 @@ using System.Security.Claims;
 //Generator.populateUniversities();
 //Generator.populateFaculties();
 
-UniversityService universityService = new UniversityService();
-FacultyService facultyService = new FacultyService();
-
-
 var MyAllowSpecificOrigins = "randomStringTheySay";
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +18,14 @@ var connectionString = builder.Configuration.GetConnectionString("UniAuthConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
       .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddSingleton(new UniversityRepository(builder.Configuration.GetConnectionString("DatabaseConnection")));
+builder.Services.AddSingleton<UniversityService>();
+builder.Services.AddSingleton(new FacultyRepository(builder.Configuration.GetConnectionString("DatabaseConnection")));
+builder.Services.AddSingleton<FacultyService>();
+
+builder.Services.AddSingleton<Generator>();
+
 
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
@@ -37,6 +42,12 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 
 var app = builder.Build();
+FacultyService facultyService = app.Services.GetService<FacultyService>() ?? throw new Exception();
+UniversityService universityService = app.Services.GetService<UniversityService>() ?? throw new Exception();
+
+//Generator.populateUniversities();
+//Generator.populateFaculties();
+
 
 // Configure the HTTP request pipeline.
 

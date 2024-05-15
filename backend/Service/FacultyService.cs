@@ -7,9 +7,9 @@ namespace backend.Service
     {
         private FacultyRepository facultyRepo;
 
-        public FacultyService()
+        public FacultyService(FacultyRepository facultyRepository)
         {
-            facultyRepo = new FacultyRepository();
+            facultyRepo = facultyRepository;
         }
 
         public int AddFaculty(Faculty faculty)
