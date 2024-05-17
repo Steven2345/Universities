@@ -67,11 +67,19 @@ app.MapPost("/add", (UniversityNoId uni, HttpContext context) =>
                                             context.User.FindFirstValue(ClaimTypes.NameIdentifier))))
         .RequireAuthorization();
 app.MapPut("/edit/{id}", (UniversityNoId uni, int id, HttpContext context) =>
-    universityService.UpdateUniversity(new University(id, uni.Name, uni.Location, uni.Score, uni.Description,
-                                               context.User.FindFirstValue(ClaimTypes.NameIdentifier))))
+{
+    if (universityService.UpdateUniversity(new University(id, uni.Name, uni.Location, uni.Score, uni.Description,
+                                               context.User.FindFirstValue(ClaimTypes.NameIdentifier))) == -1)
+        return Results.Unauthorized();
+    return Results.Ok();
+})  
         .RequireAuthorization();
 app.MapDelete("/delete/{id}", (int id, HttpContext context) =>
-    universityService.DeleteUniversity(id, context.User.FindFirstValue(ClaimTypes.NameIdentifier)))
+{
+    if (universityService.DeleteUniversity(id, context.User.FindFirstValue(ClaimTypes.NameIdentifier)) == -1)
+        return Results.Unauthorized();
+    return Results.Ok();
+})
         .RequireAuthorization();
 
 app.MapGet("/faculties", () => facultyService.GetBatch(0, 50));
@@ -82,11 +90,19 @@ app.MapPost("/faculties/add", (FacultyNoId fcl, HttpContext context) =>
                                       context.User.FindFirstValue(ClaimTypes.NameIdentifier))))
         .RequireAuthorization();
 app.MapPut("/faculties/edit/{id}", (FacultyNoId fcl, int id, HttpContext context) =>
-    facultyService.UpdateFaculty(new Faculty(id, fcl.Name, fcl.NoOfStudents, fcl.UniversityID,
-                                         context.User.FindFirstValue(ClaimTypes.NameIdentifier))))
+{
+    if (facultyService.UpdateFaculty(new Faculty(id, fcl.Name, fcl.NoOfStudents, fcl.UniversityID,
+                                     context.User.FindFirstValue(ClaimTypes.NameIdentifier))) == -1)
+        return Results.Unauthorized();
+    return Results.Ok();
+})
         .RequireAuthorization();
 app.MapDelete("/faculties/delete/{id}", (int id, HttpContext context) =>
-    facultyService.DeleteFaculty(id, context.User.FindFirstValue(ClaimTypes.NameIdentifier)))
+{
+    if (facultyService.DeleteFaculty(id, context.User.FindFirstValue(ClaimTypes.NameIdentifier)) == -1)
+        return Results.Unauthorized();
+    return Results.Ok();
+})
         .RequireAuthorization();
 
 app.MapIdentityApi<IdentityUser>();
