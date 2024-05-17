@@ -54,6 +54,9 @@ UniversityService universityService = app.Services.GetService<UniversityService>
 
 app.UseCors(MyAllowSpecificOrigins);
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapGet("/", () => { Console.WriteLine("hit"); return universityService.GetBatchExtended(0, 10); });
 app.MapGet("/{page}", (int page) => universityService.GetBatchExtended(page, 10));
 app.MapGet("/names", () => universityService.GetAllNames())
