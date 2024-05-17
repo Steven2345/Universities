@@ -21,7 +21,7 @@
         public int AddUniversity(University uni)
         {
             using SqlConnection conn = new SqlConnection(getConnectionString());
-            const string query = "INSERT INTO Universities(uni_name, uni_location, uni_score, uni_descr, user_id) " +
+            const string query = "INSERT INTO Universities(uni_name, uni_location, uni_score, uni_descr, [user_id]) " +
                                  "VALUES(@name, @location, @score, @descr, @userid);" +
                                  "SELECT SCOPE_IDENTITY()";
             SqlCommand cmd = new SqlCommand(query, conn);

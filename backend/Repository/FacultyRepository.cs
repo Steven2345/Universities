@@ -23,7 +23,7 @@
         public int AddFaculty(Faculty faculty)
         {
             using SqlConnection conn = new SqlConnection(getConnectionString());
-            const string query = "INSERT INTO Faculties(facult_name, facult_nostud, uni_id, user_id) " +
+            const string query = "INSERT INTO Faculties(facult_name, facult_nostud, uni_id, [user_id]) " +
                                  "VALUES(@name, @nostud, @uniid, @userid);" +
                                  "SELECT SCOPE_IDENTITY()";
             SqlCommand cmd = new SqlCommand(query, conn);
@@ -176,8 +176,8 @@
                                                     (string)reader[1],
                                                     (int)reader[2],
                                                     (int)reader[3],
-                                                    (string)reader[4],
-                                                    (string)reader[5]));
+                                                    (string)reader[5],
+                                                    (string)reader[4]));
                     }
                     reader.Close();
                 }
