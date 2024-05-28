@@ -1,0 +1,59 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.tableCont {
+  margin-bottom: 10px;
+}
+
+.txtField {
+  min-width: 950px;
+  margin-bottom: 10px;
+}
+
+.bigTitleCont {
+  text-align: center;
+  margin-bottom: 100px;
+}
+
+.generalButtonCont {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.backButtonCont {
+  text-align: center;
+  margin-top: 100px;
+}
+
+.loginField {
+  max-width: 900px;
+  margin-bottom: 10px;
+}
+
+.accountManagerCont {
+  margin-bottom: 50px;
+  margin-top: 100px;
+}
+
+.accountManagerButton {
+  margin-top: 40px;
+}
+
+
+.MuiTablePagination-spacer {  /* I think this solved something about pagination on master tabel */
+  flex: 0 !important;
+}
+
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

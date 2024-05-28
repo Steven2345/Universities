@@ -1,0 +1,31 @@
+
+import { fireEvent, getByText, render } from '@testing-library/react'
+import Master from '../src/pages/Master'
+import UniversitiesProvider from '../src/UniversitiesProvider'
+
+describe('Master', () => {
+    it('renders the Master component', () => {
+        render(
+            <UniversitiesProvider>
+                <Master />
+            </UniversitiesProvider>
+        )
+
+        fireEvent.click(getByText("Add to list"))
+
+        expect()
+    })
+})
+
+
+vi.mock('react-router-dom', async () => {
+    const mod = await vi.importActual<typeof import('react-router-dom')>('react-router-dom');
+    return {
+        ...mod, 
+        useNavigate: () => mockFn,
+        useParams: () => ({ id: '102' }),
+        Link: () => mockFn
+    };
+});
+
+const mockFn = vi.fn();

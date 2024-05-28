@@ -1,0 +1,4 @@
+{
+    "webapi": "https://app-universities-webapi-mpp.azurewebsites.net",
+    "localwebapi": "http://localhost:3000"
+}
